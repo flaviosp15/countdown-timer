@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- CSS LINK -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;700&display=swap" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+  <!-- BOX ICONS -->
+  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <title>PROJECT: Countdown Timer</title>
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="container">
+      <form>
+        <label for="date">Type event date:</label>
+        <div class="input__box">
+          <input id="date" class="input__date" type="date" max="9999-12-31">
+          <i class='bx bx-x'></i>
+          <i class='bx bx-check'></i>
+        </div>
+        <button class="btn btn__update">Update</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <h1>Remaining Time</h1>
+      <div class="timer__box">
+        <p class="clock days__to">0 day</p>
+        <p class="clock time__to">00:00:00</p>
+      </div>
+      <p>until the date <span class="event__date">30/07/2022</span></p>
+    </div>
+  </main>
+
+  <!-- JS FILE -->
+  <script src="script.js"></script>
+</body>
+
+</html>
