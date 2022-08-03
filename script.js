@@ -32,7 +32,7 @@ const validInput = function () {
   boxInput.classList.add('valid');
   btnUpdate.disabled = false;
 };
-const below10 = function (number) {
+const numberBelow10 = function (number) {
   return number < 10 ? `0${number}` : number;
 };
 const timeExpired = function () {
@@ -41,7 +41,7 @@ const timeExpired = function () {
 };
 const displayCountdown = function (days, hours, minutes, seconds) {
   daysText.textContent = `${days} dia${days > 1 ? 's' : ''}`;
-  timeText.textContent = `${below10(hours)}:${below10(minutes)}:${below10(seconds)}`;
+  timeText.textContent = `${numberBelow10(hours)}:${numberBelow10(minutes)}:${numberBelow10(seconds)}`;
 };
 
 noInput();
