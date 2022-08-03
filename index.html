@@ -17,32 +17,31 @@
 </head>
 
 <body>
-
-  <header class="header">
-    <div class="container">
-      <form>
-        <label for="date">Type event date:</label>
-        <div class="input__box">
-          <input id="date" class="input__date" type="date" max="9999-12-31">
-          <i class='bx bx-x'></i>
-          <i class='bx bx-check'></i>
-        </div>
-        <button class="btn btn__update">Update</button>
-      </form>
-    </div>
-  </header>
-
-  <main class="main">
-    <div class="container">
-      <h1>Remaining Time</h1>
-      <div class="timer__box">
-        <p class="clock days__to">0 day</p>
-        <p class="clock time__to">00:00:00</p>
+  <div class="wrapper">
+    <header class="header">
+      <div class="container">
+        <form>
+          <label for="date">Digite a data:</label>
+          <div class="input__box">
+            <input id="date" class="input__date" type="date" max="9999-12-31">
+            <i class='bx bx-x'></i>
+            <i class='bx bx-check'></i>
+          </div>
+          <button class="btn btn__update">Atualizar</button>
+        </form>
       </div>
-      <p>until the date <span class="event__date">30/07/2022</span></p>
-    </div>
-  </main>
-
+    </header>
+    <main class="main">
+      <div class="container">
+        <h1 class="title">Tempo restante</h1>
+        <div class="timer__box">
+          <p class="timer days__to">0 dia</p>
+          <p class="timer time__to">00:00:00</p>
+        </div>
+        <p class="paragraph-text">até a data de <span class="span__date">hoje</span></p>
+      </div>
+    </main>
+  </div>
   <!-- JS FILE -->
   <script src="script.js"></script>
 </body>
