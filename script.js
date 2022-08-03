@@ -1,4 +1,5 @@
-let eventDate, eventDay, eventMonth, eventYear;
+/* =========================== VARIABLES =========================== */
+let eventDate, eventDay, eventMonth, eventYear, eventDateInMilliseconds;
 const boxInput = document.querySelector('.input__box');
 const inputDate = document.querySelector('.input__date');
 const btnUpdate = document.querySelector('.btn__update');
@@ -6,105 +7,81 @@ const validIcon = document.querySelector('.bx-check');
 const invalidIcon = document.querySelector('.bx-x');
 const daysText = document.querySelector('.days__to');
 const timeText = document.querySelector('.time__to');
-const eventDateText = document.querySelector('.event__date');
+const spanDate = document.querySelector('.span__date');
 const today = new Date();
-const months = {
-  01: 'Jan',
-  02: 'Feb',
-  03: 'Mar',
-  04: 'Apr',
-  05: 'May',
-  06: 'Jun',
-  07: 'Jul',
-  08: 'Aug',
-  09: 'Sep',
-  10: 'Oct',
-  11: 'Nov',
-  12: 'Dec',
-};
+
+/* =========================== FUNCTIONS =========================== */
 const noInput = function () {
-  if (inputDate.value === '') {
-    invalidIcon.classList.remove('invalid');
-    validIcon.classList.remove('valid');
-    boxInput.classList.remove('invalid');
-    boxInput.classList.remove('valid');
-    btnUpdate.disabled = true;
-  }
+  invalidIcon.classList.remove('invalid');
+  validIcon.classList.remove('valid');
+  boxInput.classList.remove('invalid');
+  boxInput.classList.remove('valid');
+  btnUpdate.disabled = true;
 };
-const invalidInput = function (milliseconds) {
-  if (milliseconds < today.getTime()) {
-    invalidIcon.classList.add('invalid');
-    validIcon.classList.remove('valid');
-    boxInput.classList.add('invalid');
-    boxInput.classList.remove('valid');
-    btnUpdate.disabled = true;
-  }
+const invalidInput = function () {
+  invalidIcon.classList.add('invalid');
+  validIcon.classList.remove('valid');
+  boxInput.classList.add('invalid');
+  boxInput.classList.remove('valid');
+  btnUpdate.disabled = true;
 };
-const validInput = function (milliseconds) {
-  if (milliseconds > today.getTime()) {
-    invalidIcon.classList.remove('invalid');
-    validIcon.classList.add('valid');
-    boxInput.classList.remove('invalid');
-    boxInput.classList.add('valid');
-    btnUpdate.disabled = false;
-  }
+const validInput = function () {
+  invalidIcon.classList.remove('invalid');
+  validIcon.classList.add('valid');
+  boxInput.classList.remove('invalid');
+  boxInput.classList.add('valid');
+  btnUpdate.disabled = false;
+};
+const below10 = function (number) {
+  return number < 10 ? `0${number}` : number;
+};
+const timeExpired = function () {
+  daysText.textContent = 'Contagem';
+  timeText.textContent = 'Finalizada!';
+};
+const displayCountdown = function (days, hours, minutes, seconds) {
+  daysText.textContent = `${days} dia${days > 1 ? 's' : ''}`;
+  timeText.textContent = `${below10(hours)}:${below10(minutes)}:${below10(seconds)}`;
 };
 
 noInput();
 
+/* =========================== LISTENERS =========================== */
 inputDate.addEventListener('keyup', function () {
-  const splitEventDate = inputDate.value.split('-');
+  const splitEventDate = this.value.split('-');
+  const millisecondsNow = today.getTime();
   eventDay = splitEventDate[2];
-  eventMonth = months[Number(splitEventDate[1])];
-  eventYear = splitEventDate[0].slice(0, 2) === '00' ? null : splitEventDate[0];
-  const eventDateToMilisseconds = new Date(
-    `${eventMonth} ${eventDay}, ${eventYear} 00:00:00`
-  ).getTime();
-  noInput();
-  validInput(eventDateToMilisseconds);
-  invalidInput(eventDateToMilisseconds);
+  eventMonth = splitEventDate[1];
+  eventYear = splitEventDate[0].slice(0, 1) === '0' ? null : splitEventDate[0];
+  eventDateInMilliseconds = new Date(`${eventMonth} ${eventDay}, ${eventYear} 00:00:00`).getTime();
+  if (eventDateInMilliseconds > millisecondsNow) validInput();
+  else if (eventDateInMilliseconds < millisecondsNow) invalidInput();
+  else noInput();
 });
 
 btnUpdate.addEventListener('click', function (e) {
   e.preventDefault();
-  eventDate = new Date(
-    `${eventMonth} ${eventDay}, ${eventYear} 00:00:00`
-  ).getTime();
-  eventDateText.textContent = inputDate.value;
+  eventDate = eventDateInMilliseconds;
   inputDate.value = '';
+  inputDate.blur();
   noInput();
+  spanDate.textContent = `${eventDay}/${eventMonth}/${eventYear}`;
 });
 
+/* =========================== RUN COUNTDOWN TIMER =========================== */
 setInterval(function () {
-  let now = new Date().getTime();
-  let differenceBeetwenDates = eventDate - now;
-  let daysToEventDate = Math.floor(
-    differenceBeetwenDates / (1000 * 60 * 60 * 24)
-  );
-  let hoursToEventDate = Math.floor(
-    (differenceBeetwenDates % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
-  let minutesToEventDate = Math.floor(
-    (differenceBeetwenDates % (1000 * 60 * 60)) / (1000 * 60)
-  );
-  let secondsToEventDate = Math.floor(
-    (differenceBeetwenDates % (1000 * 60)) / 1000
-  );
+  const now = new Date().getTime(),
+    differenceBeetwenDates = eventDate - now,
+    daysToEventDate = Math.floor(differenceBeetwenDates / (1000 * 60 * 60 * 24)),
+    hoursToEventDate = Math.floor((differenceBeetwenDates % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    minutesToEventDate = Math.floor((differenceBeetwenDates % (1000 * 60 * 60)) / (1000 * 60)),
+    secondsToEventDate = Math.floor((differenceBeetwenDates % (1000 * 60)) / 1000);
 
-  if (differenceBeetwenDates === 0) {
-    return; /* TODO */
+  if (differenceBeetwenDates <= 0) {
+    timeExpired();
   } else if (eventDate === undefined) {
     return null;
   } else {
-    timeText.textContent = `${
-      hoursToEventDate < 10 ? `0${hoursToEventDate}` : hoursToEventDate
-    }:${
-      minutesToEventDate < 10 ? `0${minutesToEventDate}` : minutesToEventDate
-    }:${
-      secondsToEventDate < 10 ? `0${secondsToEventDate}` : secondsToEventDate
-    }`;
-    daysText.textContent = `${daysToEventDate} day${
-      daysToEventDate > 1 ? 's' : ''
-    }`;
+    displayCountdown(daysToEventDate, hoursToEventDate, minutesToEventDate, secondsToEventDate);
   }
 }, 1000);
