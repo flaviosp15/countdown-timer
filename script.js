@@ -11,7 +11,7 @@ const spanDate = document.querySelector('.span__date');
 const today = new Date();
 
 /* =========================== FUNCTIONS =========================== */
-const verifyValidInput = function () {
+const verifyInput = function () {
   const splitEventDate = inputDate.value.split('-');
   const currentDateInMilliseconds = today.getTime();
   eventDay = splitEventDate[2];
@@ -60,11 +60,11 @@ noInput();
 
 /* =========================== LISTENERS =========================== */
 inputDate.addEventListener('keyup', function () {
-  verifyValidInput();
+  verifyInput();
 });
 
-inputDate.addEventListener('select', function () {
-  verifyValidInput();
+inputDate.addEventListener('input', function () {
+  verifyInput();
 });
 
 btnUpdate.addEventListener('click', function (e) {
