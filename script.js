@@ -85,9 +85,9 @@ setInterval(function () {
     minutesToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60)) / (1000 * 60)),
     secondsToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60)) / 1000),
     isUndefined = eventDate === undefined,
-    areMillisecondsBelow0 = differenceInMilliseconds < 0;
+    areMillisecondsLessThan0 = differenceInMilliseconds < 0;
 
-  if (areMillisecondsBelow0) {
+  if (areMillisecondsLessThan0) {
     expiredTime();
   } else if (isUndefined) {
     return null;
