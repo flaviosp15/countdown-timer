@@ -63,11 +63,9 @@ inputDate.addEventListener('keyup', function () {
   verifyValidInput();
 });
 
-if (window.innerWidth < 768) {
-  inputDate.addEventListener('click', function () {
-    verifyValidInput();
-  });
-}
+inputDate.addEventListener('select', function () {
+  verifyValidInput();
+});
 
 btnUpdate.addEventListener('click', function (e) {
   e.preventDefault();
