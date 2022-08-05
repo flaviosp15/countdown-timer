@@ -1,14 +1,14 @@
 /* =========================== VARIABLES =========================== */
 let eventDate, eventDay, eventMonth, eventYear, eventDateInMilliseconds;
-const boxInput = document.querySelector('.input__box');
-const inputDate = document.querySelector('.input__date');
-const btnUpdate = document.querySelector('.btn__update');
-const validIcon = document.querySelector('.bx-check');
-const invalidIcon = document.querySelector('.bx-x');
-const daysText = document.querySelector('.days__to');
-const timeText = document.querySelector('.time__to');
-const spanDate = document.querySelector('.span__date');
-const today = new Date();
+const boxInput = document.querySelector('.input__box'),
+  inputDate = document.querySelector('.input__date'),
+  btnUpdate = document.querySelector('.btn__update'),
+  validIcon = document.querySelector('.bx-check'),
+  invalidIcon = document.querySelector('.bx-x'),
+  daysText = document.querySelector('.days__to'),
+  timeText = document.querySelector('.time__to'),
+  spanDate = document.querySelector('.span__date'),
+  today = new Date();
 
 /* =========================== FUNCTIONS =========================== */
 const verifyInput = function () {
@@ -43,9 +43,7 @@ const validInput = function () {
   boxInput.classList.add('valid');
   btnUpdate.disabled = false;
 };
-const formatNumberLessThan10 = function (number) {
-  return number < 10 ? `0${number}` : number;
-};
+const formatNumberLessThan10 = number => (number < 10 ? `0${number}` : number);
 const expiredTime = function () {
   daysText.textContent = 'Contagem';
   timeText.textContent = 'Finalizada!';
@@ -85,9 +83,9 @@ setInterval(function () {
     minutesToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60)) / (1000 * 60)),
     secondsToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60)) / 1000),
     isUndefined = eventDate === undefined,
-    areMillisecondsLessThan0 = differenceInMilliseconds < 0;
+    isDifferenceLessThan0 = differenceInMilliseconds < 0;
 
-  if (areMillisecondsLessThan0) {
+  if (isDifferenceLessThan0) {
     expiredTime();
   } else if (isUndefined) {
     return null;
