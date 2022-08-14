@@ -64,8 +64,6 @@ const displayCountdown = function (days, hours, minutes, seconds) {
   timeText.textContent = remainingTime;
 };
 
-noInput();
-
 /* =========================== LISTENERS =========================== */
 inputDate.addEventListener('keyup', function () {
   verifyInput();
