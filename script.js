@@ -15,11 +15,11 @@ const verifyInput = function () {
   fullStringEventDate = new Date(`${inputDate.value} 00:00:00`);
   eventDateInMilliseconds = fullStringEventDate.getTime();
   const currentDateInMilliseconds = today.getTime(),
-    /* regex = /[^0]+(\d){3}/g,
-    splitYear = inputDate.value.match(regex)?.join(),
-    isDateFilled = regex.test(splitYear), */
-    isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds,
-    isValidInput = eventDateInMilliseconds > currentDateInMilliseconds;
+    yearAbove1000 = /[^0]+(\d){3}/g,
+    splitYear = inputDate.value.match(yearAbove1000, null),
+    isDateFilled = yearAbove1000.test(splitYear),
+    isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds && isDateFilled,
+    isValidInput = eventDateInMilliseconds > currentDateInMilliseconds && isDateFilled;
   if (isValidInput) validInput();
   else if (isInvalidInput) invalidInput();
   else noInput();
@@ -63,6 +63,8 @@ const displayCountdown = function (days, hours, minutes, seconds) {
   daysText.textContent = numberOfDays;
   timeText.textContent = remainingTime;
 };
+
+noInput();
 
 /* =========================== LISTENERS =========================== */
 inputDate.addEventListener('keyup', function () {
