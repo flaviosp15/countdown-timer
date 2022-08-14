@@ -12,14 +12,14 @@ const boxInput = document.querySelector('.input__box'),
 
 /* =========================== FUNCTIONS =========================== */
 const verifyInput = function () {
+  fullStringEventDate = new Date(`${inputDate.value} 00:00:00`);
+  eventDateInMilliseconds = fullStringEventDate.getTime();
   const currentDateInMilliseconds = today.getTime(),
     regex = /[^0]+(\d){3}/g,
     splitYear = inputDate.value.match(regex)?.join(),
     isDateFilled = regex.test(splitYear),
     isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds && isDateFilled,
     isValidInput = eventDateInMilliseconds > currentDateInMilliseconds && isDateFilled;
-  fullStringEventDate = new Date(`${inputDate.value} 00:00:00`);
-  eventDateInMilliseconds = Date.parse(fullStringEventDate);
   if (isValidInput) validInput();
   else if (isInvalidInput) invalidInput();
   else noInput();
