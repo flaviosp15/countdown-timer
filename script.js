@@ -15,11 +15,11 @@ const verifyInput = function () {
   fullStringEventDate = new Date(`${inputDate.value} 00:00:00`);
   eventDateInMilliseconds = fullStringEventDate.getTime();
   const currentDateInMilliseconds = today.getTime(),
-    regex = /[^0]+(\d){3}/g,
+    /* regex = /[^0]+(\d){3}/g,
     splitYear = inputDate.value.match(regex)?.join(),
-    isDateFilled = regex.test(splitYear),
-    isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds && isDateFilled,
-    isValidInput = eventDateInMilliseconds > currentDateInMilliseconds && isDateFilled;
+    isDateFilled = regex.test(splitYear), */
+    isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds,
+    isValidInput = eventDateInMilliseconds > currentDateInMilliseconds;
   if (isValidInput) validInput();
   else if (isInvalidInput) invalidInput();
   else noInput();
