@@ -47,19 +47,21 @@ const validInput = function () {
 };
 const formatNumberLessThan10 = number => (number < 10 ? `0${number}` : number);
 const expiredTime = function () {
-  return [(daysText.textContent = 'Contagem'), (timeText.textContent = 'Finalizada!')];
+  daysText.textContent = 'Contagem';
+  timeText.textContent = 'Finalizada!';
 };
 const displayFormattedDate = function () {
   eventDay = formatNumberLessThan10(fullStringEventDate.getDate());
   eventMonth = formatNumberLessThan10(fullStringEventDate.getMonth() + 1);
   eventYear = fullStringEventDate.getFullYear();
-  return (spanDate.textContent = `${eventDay}/${eventMonth}/${eventYear}`);
+  spanDate.textContent = `${eventDay}/${eventMonth}/${eventYear}`;
 };
 const displayCountdown = function (days, hours, minutes, seconds) {
   const formatNumber = /\B(?=(\d{3})+(?!\d))/g,
     numberOfDays = `${days.toString().replace(formatNumber, '.')} dia${days > 1 ? 's' : ''}`,
     remainingTime = `${formatNumberLessThan10(hours)}:${formatNumberLessThan10(minutes)}:${formatNumberLessThan10(seconds)}`;
-  return [(daysText.textContent = numberOfDays), (timeText.textContent = remainingTime)];
+  daysText.textContent = numberOfDays;
+  timeText.textContent = remainingTime;
 };
 
 noInput();
