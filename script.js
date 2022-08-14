@@ -1,5 +1,5 @@
 /* =========================== VARIABLES =========================== */
-let eventDate, eventDay, eventMonth, eventYear, eventDateInMilliseconds;
+let eventDate, eventDay, eventMonth, eventYear, eventDateInMilliseconds, fullStringEventDate;
 const boxInput = document.querySelector('.input__box'),
   inputDate = document.querySelector('.input__date'),
   btnUpdate = document.querySelector('.btn__update'),
@@ -12,14 +12,16 @@ const boxInput = document.querySelector('.input__box'),
 
 /* =========================== FUNCTIONS =========================== */
 const verifyInput = function () {
-  const splitEventDate = inputDate.value.split('-');
-  const currentDateInMilliseconds = today.getTime();
-  eventDay = splitEventDate[2];
-  eventMonth = splitEventDate[1];
-  eventYear = splitEventDate[0].slice(0, 1) === '0' ? null : splitEventDate[0];
-  eventDateInMilliseconds = new Date(`${eventMonth} ${eventDay}, ${eventYear} 00:00:00`).getTime();
-  if (eventDateInMilliseconds > currentDateInMilliseconds) validInput();
-  else if (eventDateInMilliseconds < currentDateInMilliseconds) invalidInput();
+  const currentDateInMilliseconds = today.getTime(),
+    regex = /[^0]+(\d){3}/g,
+    splitYear = inputDate.value.match(regex)?.join(),
+    isDateFilled = regex.test(splitYear),
+    isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds && isDateFilled,
+    isValidInput = eventDateInMilliseconds > currentDateInMilliseconds && isDateFilled;
+  fullStringEventDate = new Date(`${inputDate.value} 00:00:00`);
+  eventDateInMilliseconds = Date.parse(fullStringEventDate);
+  if (isValidInput) validInput();
+  else if (isInvalidInput) invalidInput();
   else noInput();
 };
 const noInput = function () {
@@ -45,13 +47,19 @@ const validInput = function () {
 };
 const formatNumberLessThan10 = number => (number < 10 ? `0${number}` : number);
 const expiredTime = function () {
-  daysText.textContent = 'Contagem';
-  timeText.textContent = 'Finalizada!';
+  return [(daysText.textContent = 'Contagem'), (timeText.textContent = 'Finalizada!')];
+};
+const displayFormattedDate = function () {
+  eventDay = formatNumberLessThan10(fullStringEventDate.getDate());
+  eventMonth = formatNumberLessThan10(fullStringEventDate.getMonth() + 1);
+  eventYear = fullStringEventDate.getFullYear();
+  return (spanDate.textContent = `${eventDay}/${eventMonth}/${eventYear}`);
 };
 const displayCountdown = function (days, hours, minutes, seconds) {
-  const formatNumber = /\B(?=(\d{3})+(?!\d))/g;
-  daysText.textContent = `${days.toString().replace(formatNumber, '.')} dia${days > 1 ? 's' : ''}`;
-  timeText.textContent = `${formatNumberLessThan10(hours)}:${formatNumberLessThan10(minutes)}:${formatNumberLessThan10(seconds)}`;
+  const formatNumber = /\B(?=(\d{3})+(?!\d))/g,
+    numberOfDays = `${days.toString().replace(formatNumber, '.')} dia${days > 1 ? 's' : ''}`,
+    remainingTime = `${formatNumberLessThan10(hours)}:${formatNumberLessThan10(minutes)}:${formatNumberLessThan10(seconds)}`;
+  return [(daysText.textContent = numberOfDays), (timeText.textContent = remainingTime)];
 };
 
 noInput();
@@ -71,7 +79,7 @@ btnUpdate.addEventListener('click', function (e) {
   inputDate.value = '';
   inputDate.blur();
   noInput();
-  spanDate.textContent = `${eventDay}/${eventMonth}/${eventYear}`;
+  displayFormattedDate();
 });
 
 /* =========================== RUN COUNTDOWN TIMER =========================== */
@@ -84,7 +92,6 @@ setInterval(function () {
     secondsToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60)) / 1000),
     isUndefined = eventDate === undefined,
     isDifferenceLessThan0 = differenceInMilliseconds < 0;
-
   if (isDifferenceLessThan0) {
     expiredTime();
   } else if (isUndefined) {
