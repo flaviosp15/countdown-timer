@@ -1,5 +1,5 @@
 /* =========================== VARIABLES =========================== */
-let eventDate, eventDay, eventMonth, eventYear, eventDateInMilliseconds, fullStringEventDate;
+let eventDate, eventDateInMilliseconds, fullStringEventDate;
 const boxInput = document.querySelector('.input__box'),
   inputDate = document.querySelector('.input__date'),
   btnUpdate = document.querySelector('.btn__update'),
@@ -12,8 +12,14 @@ const boxInput = document.querySelector('.input__box'),
 
 /* =========================== FUNCTIONS =========================== */
 const verifyInput = function () {
-  /*   const fixDateForAllBrowsers = inputDate.value.replace(/-/g, '/'); */
-  fullStringEventDate = new Date(`12/25/2022 00:00:00`);
+  const fixDateForAllBrowsers = function () {
+    let newFormat = [];
+    const arrayDate = inputDate.value.replace(/-/g, '/').split('/');
+    const [yyyy, mm, dd] = arrayDate;
+    newFormat = [mm, dd, yyyy].join('/');
+    return newFormat;
+  };
+  fullStringEventDate = new Date(`${fixDateForAllBrowsers()} 00:00:00`);
   eventDateInMilliseconds = fullStringEventDate.getTime();
   const currentDateInMilliseconds = today.getTime(),
     yearAbove1000 = /[^0]+(\d){3}/g,
@@ -52,9 +58,9 @@ const expiredTime = function () {
   timeText.textContent = 'Finalizada!';
 };
 const displayFormattedDate = function () {
-  eventDay = formatNumberLessThan10(fullStringEventDate.getDate());
-  eventMonth = formatNumberLessThan10(fullStringEventDate.getMonth() + 1);
-  eventYear = fullStringEventDate.getFullYear();
+  const eventDay = formatNumberLessThan10(fullStringEventDate.getDate()),
+    eventMonth = formatNumberLessThan10(fullStringEventDate.getMonth() + 1),
+    eventYear = fullStringEventDate.getFullYear();
   spanDate.textContent = `${eventDay}/${eventMonth}/${eventYear}`;
 };
 const displayCountdown = function (days, hours, minutes, seconds) {
