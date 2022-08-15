@@ -11,14 +11,14 @@ const boxInput = document.querySelector('.input__box'),
   today = new Date();
 
 /* =========================== FUNCTIONS =========================== */
+const fixDateForAllBrowsers = function (input) {
+  let newFormat = [];
+  const arrayDate = input.replace(/-/g, '/').split('/');
+  const [yyyy, mm, dd] = arrayDate;
+  newFormat = [mm, dd, yyyy].join('/');
+  return newFormat;
+};
 const verifyInput = function () {
-  const fixDateForAllBrowsers = function (input) {
-    let newFormat = [];
-    const arrayDate = input.replace(/-/g, '/').split('/');
-    const [yyyy, mm, dd] = arrayDate;
-    newFormat = [mm, dd, yyyy].join('/');
-    return newFormat;
-  };
   fullStringEventDate = new Date(`${fixDateForAllBrowsers(inputDate.value)} 00:00:00`);
   eventDateInMilliseconds = fullStringEventDate.getTime();
   const currentDateInMilliseconds = today.getTime(),
