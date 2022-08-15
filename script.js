@@ -12,14 +12,14 @@ const boxInput = document.querySelector('.input__box'),
 
 /* =========================== FUNCTIONS =========================== */
 const verifyInput = function () {
-  const fixDateForAllBrowsers = function () {
+  const fixDateForAllBrowsers = function (input) {
     let newFormat = [];
-    const arrayDate = inputDate.value.replace(/-/g, '/').split('/');
+    const arrayDate = input.replace(/-/g, '/').split('/');
     const [yyyy, mm, dd] = arrayDate;
     newFormat = [mm, dd, yyyy].join('/');
     return newFormat;
   };
-  fullStringEventDate = new Date(`${fixDateForAllBrowsers()} 00:00:00`);
+  fullStringEventDate = new Date(`${fixDateForAllBrowsers(inputDate.value)} 00:00:00`);
   eventDateInMilliseconds = fullStringEventDate.getTime();
   const currentDateInMilliseconds = today.getTime(),
     yearAbove1000 = /[^0]+(\d){3}/g,
