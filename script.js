@@ -12,8 +12,9 @@ const boxInput = document.querySelector('.input__box'),
 
 /* =========================== FUNCTIONS =========================== */
 const verifyInput = function () {
-  fullStringEventDate = new Date(`${inputDate.value} 00:00:00`);
-  eventDateInMilliseconds = Date.parse(fullStringEventDate);
+  const fixDateForAllBrowsers = inputDate.value.replace(/-/g, '/');
+  fullStringEventDate = new Date(`${fixDateForAllBrowsers} 00:00:00`);
+  eventDateInMilliseconds = fullStringEventDate.getTime();
   const currentDateInMilliseconds = today.getTime(),
     yearAbove1000 = /[^0]+(\d){3}/g,
     splitYear = inputDate.value.match(yearAbove1000, null),
