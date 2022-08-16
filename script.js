@@ -21,12 +21,13 @@ const fixDateForAllBrowsers = function (input) {
 const verifyInput = function () {
   fullStringEventDate = new Date(`${fixDateForAllBrowsers(inputDate.value)} 00:00:00`);
   eventDateInMilliseconds = fullStringEventDate.getTime();
-  const currentDateInMilliseconds = today.getTime(),
-    yearAbove1000 = /[^0]+(\d){3}/g,
-    splitYear = inputDate.value.match(yearAbove1000, null),
-    isDateFilled = yearAbove1000.test(splitYear),
-    isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds && isDateFilled,
-    isValidInput = eventDateInMilliseconds > currentDateInMilliseconds && isDateFilled;
+  const currentDateInMilliseconds = today.getTime();
+  const yearAbove1000 = /[^0]+(\d){3}/g;
+  const splitYear = inputDate.value.match(yearAbove1000, null);
+  const isDateFilled = yearAbove1000.test(splitYear);
+  console.log(splitYear, isDateFilled);
+  const isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds || splitYear === null;
+  const isValidInput = eventDateInMilliseconds > currentDateInMilliseconds && isDateFilled;
   if (isValidInput) validInput();
   else if (isInvalidInput) invalidInput();
   else noInput();
@@ -58,15 +59,15 @@ const expiredTime = function () {
   timeText.textContent = 'Finalizada!';
 };
 const displayFormattedDate = function () {
-  const eventDay = formatNumberLessThan10(fullStringEventDate.getDate()),
-    eventMonth = formatNumberLessThan10(fullStringEventDate.getMonth() + 1),
-    eventYear = fullStringEventDate.getFullYear();
+  const eventDay = formatNumberLessThan10(fullStringEventDate.getDate());
+  const eventMonth = formatNumberLessThan10(fullStringEventDate.getMonth() + 1);
+  const eventYear = fullStringEventDate.getFullYear();
   spanDate.textContent = `${eventDay}/${eventMonth}/${eventYear}`;
 };
 const displayCountdown = function (days, hours, minutes, seconds) {
-  const formatNumber = /\B(?=(\d{3})+(?!\d))/g,
-    numberOfDays = `${days.toString().replace(formatNumber, '.')} dia${days > 1 ? 's' : ''}`,
-    remainingTime = `${formatNumberLessThan10(hours)}:${formatNumberLessThan10(minutes)}:${formatNumberLessThan10(seconds)}`;
+  const formatNumber = /\B(?=(\d{3})+(?!\d))/g;
+  const numberOfDays = `${days.toString().replace(formatNumber, '.')} dia${days > 1 ? 's' : ''}`;
+  const remainingTime = `${formatNumberLessThan10(hours)}:${formatNumberLessThan10(minutes)}:${formatNumberLessThan10(seconds)}`;
   daysText.textContent = numberOfDays;
   timeText.textContent = remainingTime;
 };
@@ -74,13 +75,9 @@ const displayCountdown = function (days, hours, minutes, seconds) {
 noInput();
 
 /* =========================== LISTENERS =========================== */
-inputDate.addEventListener('keyup', function () {
-  verifyInput();
-});
+inputDate.addEventListener('keyup', verifyInput);
 
-inputDate.addEventListener('input', function () {
-  verifyInput();
-});
+inputDate.addEventListener('input', verifyInput);
 
 btnUpdate.addEventListener('click', function (e) {
   e.preventDefault();
@@ -93,14 +90,14 @@ btnUpdate.addEventListener('click', function (e) {
 
 /* =========================== RUN COUNTDOWN TIMER =========================== */
 setInterval(function () {
-  const now = new Date().getTime(),
-    differenceInMilliseconds = eventDate - now,
-    daysToEventDate = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24)),
-    hoursToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-    minutesToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60)) / (1000 * 60)),
-    secondsToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60)) / 1000),
-    isUndefined = eventDate === undefined,
-    isDifferenceLessThan0 = differenceInMilliseconds < 0;
+  const now = new Date().getTime();
+  const differenceInMilliseconds = eventDate - now;
+  const daysToEventDate = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+  const hoursToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutesToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+  const secondsToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60)) / 1000);
+  const isUndefined = eventDate === undefined;
+  const isDifferenceLessThan0 = differenceInMilliseconds < 0;
   if (isDifferenceLessThan0) {
     expiredTime();
   } else if (isUndefined) {
