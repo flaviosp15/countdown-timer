@@ -1,14 +1,14 @@
 /* =========================== VARIABLES =========================== */
 let eventDate, eventDateInMilliseconds, fullStringEventDate;
-const boxInput = document.querySelector('.input__box'),
-  inputDate = document.querySelector('.input__date'),
-  btnUpdate = document.querySelector('.btn__update'),
-  validIcon = document.querySelector('.bx-check'),
-  invalidIcon = document.querySelector('.bx-x'),
-  daysText = document.querySelector('.days__to'),
-  timeText = document.querySelector('.time__to'),
-  spanDate = document.querySelector('.span__date'),
-  today = new Date();
+const boxInput = document.querySelector('.input__box');
+const inputDate = document.querySelector('.input__date');
+const btnUpdate = document.querySelector('.btn__update');
+const validIcon = document.querySelector('.bx-check');
+const invalidIcon = document.querySelector('.bx-x');
+const daysText = document.querySelector('.days__to');
+const timeText = document.querySelector('.time__to');
+const spanDate = document.querySelector('.span__date');
+const today = new Date();
 
 /* =========================== FUNCTIONS =========================== */
 const fixDateForAllBrowsers = function (input) {
@@ -25,7 +25,6 @@ const verifyInput = function () {
   const yearAbove1000 = /[^0]+(\d){3}/g;
   const splitYear = inputDate.value.match(yearAbove1000, null);
   const isDateFilled = yearAbove1000.test(splitYear);
-  console.log(splitYear, isDateFilled);
   const isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds || splitYear === null;
   const isValidInput = eventDateInMilliseconds > currentDateInMilliseconds && isDateFilled;
   if (isValidInput) validInput();
