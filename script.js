@@ -25,11 +25,16 @@ const verifyInput = function () {
   const yearAbove1000 = /[^0]+(\d){3}/g;
   const splitYear = inputDate.value.match(yearAbove1000, null);
   const isDateFilled = yearAbove1000.test(splitYear);
-  const isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds || splitYear === null;
+  const isInvalidInput = eventDateInMilliseconds < currentDateInMilliseconds || (splitYear === null && !inputDate.checkValidity());
   const isValidInput = eventDateInMilliseconds > currentDateInMilliseconds && isDateFilled;
   if (isValidInput) validInput();
   else if (isInvalidInput) invalidInput();
   else noInput();
+};
+const clearInput = function () {
+  inputDate.value = '';
+  inputDate.blur();
+  noInput();
 };
 const noInput = function () {
   invalidIcon.classList.remove('invalid');
@@ -81,9 +86,7 @@ inputDate.addEventListener('input', verifyInput);
 btnUpdate.addEventListener('click', function (e) {
   e.preventDefault();
   eventDate = eventDateInMilliseconds;
-  inputDate.value = '';
-  inputDate.blur();
-  noInput();
+  clearInput();
   displayFormattedDate();
 });
 
