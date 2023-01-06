@@ -34,7 +34,7 @@ When the Refresh button is enabled, click on it and the countdown starts.
 
 ## 🧠 Takeaways
 
-- SetInterval
+- setInterval
 - API Date
 - Validating user input
 - Transition effect
