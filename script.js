@@ -88,23 +88,27 @@ btnUpdate.addEventListener('click', function (e) {
   eventDate = eventDateInMilliseconds;
   clearInput();
   displayFormattedDate();
+  init();
 });
 
 /* =========================== RUN COUNTDOWN TIMER =========================== */
-setInterval(function () {
-  const now = new Date().getTime();
-  const differenceInMilliseconds = eventDate - now;
-  const daysToEventDate = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
-  const hoursToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutesToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
-  const secondsToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60)) / 1000);
-  const isUndefined = eventDate === undefined;
-  const isDifferenceLessThan0 = differenceInMilliseconds < 0;
-  if (isDifferenceLessThan0) {
-    expiredTime();
-  } else if (isUndefined) {
-    return null;
-  } else {
-    displayCountdown(daysToEventDate, hoursToEventDate, minutesToEventDate, secondsToEventDate);
-  }
-}, 1000);
+const init = function () {
+  const runCountdown = setInterval(function () {
+    const now = new Date().getTime();
+    const differenceInMilliseconds = eventDate - now;
+    const daysToEventDate = Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+    const hoursToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutesToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+    const secondsToEventDate = Math.floor((differenceInMilliseconds % (1000 * 60)) / 1000);
+    const isUndefined = eventDate === undefined;
+    const isDifferenceLessThan0 = differenceInMilliseconds < 0;
+    if (isDifferenceLessThan0) {
+      expiredTime();
+      return clearInterval(runCountdown);
+    } else if (isUndefined) {
+      return null;
+    } else {
+      return displayCountdown(daysToEventDate, hoursToEventDate, minutesToEventDate, secondsToEventDate);
+    }
+  }, 1000);
+};
