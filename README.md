@@ -10,6 +10,8 @@ That countdown timer helps user to know how much time remaining until to specifi
 
 ## 🎬 Demo
 
+Access the page by the link: [Countdown Timer](https://flaviosp15.github.io/countdown-timer/)
+
 ![](https://github.com/flaviosp15/countdown-timer/blob/main/img/countdown-timer.gif)
 
 ## 🧠 Takeaways
